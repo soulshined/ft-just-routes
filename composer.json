@@ -1,0 +1,32 @@
+{
+    "name": "ft/just-routes",
+    "description": "A library simply for routing requests. Simple. Light. Fast",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0",
+    "keywords": [
+        "php",
+        "api",
+        "routing",
+        "controller"
+    ],
+    "autoload": {
+        "psr-4": {
+            "FT\\Routing\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Freer",
+            "email": "support@davidfreer.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "ft/attributes": "^1.1",
+        "ft/request-response": "^1.1.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
