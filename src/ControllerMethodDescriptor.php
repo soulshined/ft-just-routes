@@ -1,8 +1,7 @@
 <?php
 namespace FT\Routing;
 
-use Exception;
-use FT\Attributes\Reflection\Attribute;
+use FT\Reflection\Attribute;
 use FT\RequestResponse\Enums\RequestMethods;
 use FT\Routing\Attributes\DeleteMapping;
 use FT\Routing\Attributes\GetMapping;

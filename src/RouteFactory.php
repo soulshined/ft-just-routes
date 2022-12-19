@@ -2,8 +2,7 @@
 
 namespace FT\Routing;
 
-use Exception;
-use FT\Attributes\ClassCache;
+use FT\Reflection\ClassCache;
 use FT\RequestResponse\Enums\RequestMethods;
 use FT\RequestResponse\Enums\StatusCodes;
 use FT\RequestResponse\Request;
@@ -30,7 +29,7 @@ final class RouteFactory {
 
             $path = Utils::normalize_path($path_attr->getArgument('value'));
             if (key_exists($path, static::$cache))
-                throw new RouteAlreadyExistsException($cls->shortname . "::$path", static::$cache[$path]->delegate);
+                throw new RouteAlreadyExistsException($cls->shortname . "::$path", static::$cache[$path]->type);
 
             static::$cache[$path] = new ControllerDescriptor($cls);
         }
@@ -77,7 +76,7 @@ final class RouteFactory {
             foreach (static::$middleware_handlers as $handler)
                 call_user_func($handler, $req->url->path);
 
-            $cd_instance = $cd->delegate->delegate->newInstance();
+            $cd_instance = $cd->type->delegate->newInstance();
 
             try {
                 $md->invoke($cd_instance, $segments);

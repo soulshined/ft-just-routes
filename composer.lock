@@ -4,23 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e94201611e29e557f2ce11ec0f0de09e",
+    "content-hash": "218aefbeab7dda48dff5b04383be681b",
     "packages": [
         {
             "name": "ft/attributes",
-            "version": "1.1",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soulshined/ft-attributes.git",
-                "reference": "5b26c1fa55a5bee9ce9f2cd0df47a704b837a132"
+                "reference": "1f15a390542e28d26f087f8e384b225fc993f9cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soulshined/ft-attributes/zipball/5b26c1fa55a5bee9ce9f2cd0df47a704b837a132",
-                "reference": "5b26c1fa55a5bee9ce9f2cd0df47a704b837a132",
+                "url": "https://api.github.com/repos/soulshined/ft-attributes/zipball/1f15a390542e28d26f087f8e384b225fc993f9cf",
+                "reference": "1f15a390542e28d26f087f8e384b225fc993f9cf",
                 "shasum": ""
             },
             "require": {
+                "ft/reflection": "^2.1",
                 "monolog/monolog": "^3.2"
             },
             "require-dev": {
@@ -59,9 +60,60 @@
             ],
             "support": {
                 "issues": "https://github.com/soulshined/ft-attributes/issues",
-                "source": "https://github.com/soulshined/ft-attributes/tree/v1.1"
+                "source": "https://github.com/soulshined/ft-attributes/tree/v2.1"
             },
-            "time": "2022-12-14T01:50:25+00:00"
+            "time": "2022-12-19T23:00:15+00:00"
+        },
+        {
+            "name": "ft/reflection",
+            "version": "2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soulshined/ft-reflection.git",
+                "reference": "f464ab769fe53550bf3c990855df3e3efd505c4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soulshined/ft-reflection/zipball/f464ab769fe53550bf3c990855df3e3efd505c4d",
+                "reference": "f464ab769fe53550bf3c990855df3e3efd505c4d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/globals.php"
+                ],
+                "psr-4": {
+                    "FT\\Reflection\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freer",
+                    "email": "support@davidfreer.com"
+                }
+            ],
+            "description": "A PHP reflection library",
+            "keywords": [
+                "php",
+                "reflection",
+                "utils"
+            ],
+            "support": {
+                "issues": "https://github.com/soulshined/ft-reflection/issues",
+                "source": "https://github.com/soulshined/ft-reflection/tree/2.1"
+            },
+            "time": "2022-12-19T04:29:27+00:00"
         },
         {
             "name": "ft/request-response",
@@ -567,16 +619,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.21",
+            "version": "9.2.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "3f893e19712bb0c8bc86665d1562e9fd509c4ef0"
+                "reference": "e4bf60d2220b4baaa0572986b5d69870226b06df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/3f893e19712bb0c8bc86665d1562e9fd509c4ef0",
-                "reference": "3f893e19712bb0c8bc86665d1562e9fd509c4ef0",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/e4bf60d2220b4baaa0572986b5d69870226b06df",
+                "reference": "e4bf60d2220b4baaa0572986b5d69870226b06df",
                 "shasum": ""
             },
             "require": {
@@ -632,7 +684,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.21"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.22"
             },
             "funding": [
                 {
@@ -640,7 +692,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-14T13:26:54+00:00"
+            "time": "2022-12-18T16:40:55+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

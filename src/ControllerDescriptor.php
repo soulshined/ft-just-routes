@@ -1,9 +1,8 @@
 <?php
 namespace FT\Routing;
 
-use Exception;
-use FT\Attributes\Reflection\Attribute;
-use FT\Attributes\Reflection\ManagedType;
+use FT\Reflection\Attribute;
+use FT\Reflection\Type;
 use FT\RequestResponse\Enums\RequestMethods;
 use FT\Routing\Attributes\ExceptionHandler;
 use FT\Routing\Exceptions\RouteAlreadyExistsException;
@@ -17,10 +16,10 @@ final class ControllerDescriptor {
     public array $exception_handlers = [];
 
     public function __construct(
-        public readonly ManagedType $delegate
+        public readonly Type $type
     )
     {
-        foreach ($delegate->delegate->getMethods() as $method) {
+        foreach ($type->delegate->getMethods() as $method) {
             $md = new ControllerMethodDescriptor($method);
             if (!$md->has_mapping) {
                 $ehs = $md->delegate->getAttributes(ExceptionHandler::class);
@@ -34,7 +33,7 @@ final class ControllerDescriptor {
 
             foreach ($this->methods as $this_md) {
                 if ($md->route->equals($this_md->route))
-                    throw new RouteAlreadyExistsException($md->route->path, $delegate);
+                    throw new RouteAlreadyExistsException($md->route->path, $type);
             }
 
             $this->methods[] = $md;
