@@ -3,7 +3,6 @@
 namespace FT\Routing;
 
 use FT\RequestResponse\Enums\RequestMethods;
-use FT\Routing\Exceptions\RouteException;
 
 final class Route {
 
@@ -17,9 +16,6 @@ final class Route {
     public function __construct(string $path, public readonly array $http_methods)
     {
         $this->path =  Utils::normalize_path($path);
-        if (!str_starts_with($this->path, "/"))
-            throw new RouteException("Routes must start with a slash @ $path");
-
         $this->segments = Utils::get_path_segments($this->path);
 
         $placeholders = [];
@@ -43,7 +39,7 @@ final class Route {
         if (!in_array($method, $this->http_methods))
             return false;
 
-        $req_path = Utils::normalize_path($req_path);
+        $req_path = strtolower(Utils::normalize_path($req_path));
         $req_segments = Utils::get_path_segments($req_path);
 
         if (count($this->segments) != count($req_segments))

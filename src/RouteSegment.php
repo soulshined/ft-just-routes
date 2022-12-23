@@ -10,10 +10,10 @@ final class RouteSegment {
     public function __construct(string $segment, public readonly int $index)
     {
         if (str_starts_with($segment, '{') && str_ends_with($segment, '}')) {
-            $this->identifier = substr($segment, 1, -1);
+            $this->identifier = strtolower(substr($segment, 1, -1));
             $this->type = RouteSegmentType::PLACEHOLDER;
         } else {
-            $this->identifier = $segment;
+            $this->identifier = strtolower($segment);
             $this->type = RouteSegmentType::NORMAL;
         }
     }

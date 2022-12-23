@@ -18,7 +18,7 @@ abstract class BaseTest extends TestCase {
     protected function setUp(): void
     {
         $cls = new ReflectionClass(RouteFactory::class);
-        $cls->setStaticPropertyValue("cache", []);
+        $cls->setStaticPropertyValue("controllers", []);
         $cls->setStaticPropertyValue("not_found_handler", null);
         $cls->setStaticPropertyValue("throwable_handlers", []);
         $cls->setStaticPropertyValue("middleware_handlers", []);

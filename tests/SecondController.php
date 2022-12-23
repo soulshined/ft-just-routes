@@ -1,15 +1,29 @@
 <?php
 
-use FT\RequestResponse\Enums\RequestMethods;
+use FT\Routing\Attributes\GetMapping;
 use FT\Routing\Attributes\RequestMapping;
 
 #[RequestMapping(value: "/good")]
 final class SecondController {
 
+    #[GetMapping]
+    function get_no_path()
+    {
+        echo "Hello World";
+    }
+
 }
 
 #[RequestMapping(value: "/good/reqmap")]
 final class ThirdController {
+
+}
+
+#[RequestMapping(value: "/good")]
+final class AgainstPrefixController {
+
+    #[GetMapping("/foo/bazz/buzz")]
+    public function get_buzz() {}
 
 }
 

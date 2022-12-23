@@ -17,7 +17,8 @@ final class ControllerMethodDescriptor {
     public readonly Route $route;
 
     public function __construct(
-        public readonly ReflectionMethod $delegate
+        public readonly ReflectionMethod $delegate,
+        string $route_prefix
     )
     {
         $request_mapping = $delegate->getAttributes(RequestMapping::class);
@@ -47,7 +48,7 @@ final class ControllerMethodDescriptor {
             foreach ($attr->getArgument('methods') as $method)
                 $methods[] = $method;
 
-            $this->route = new Route(trim($attr->getArgument('value')), $methods);
+            $this->route = new Route($route_prefix . (Utils::normalize_path($attr->getArgument('value'))), $methods);
         }
         else {
             $mapping = $mappings[0];
@@ -66,7 +67,7 @@ final class ControllerMethodDescriptor {
                     break;
             }
 
-            $this->route = new Route(trim($attr->getArgument('value') ?? "/"), [$method]);
+            $this->route = new Route($route_prefix . (Utils::normalize_path($attr->getArgument('value') ?? "/")), [$method]);
         }
 
     }
@@ -77,7 +78,7 @@ final class ControllerMethodDescriptor {
         foreach ($this->delegate->getParameters() as $param) {
             if (!key_exists($param->name, $placeholders)) continue;
 
-            $args[] = $segments[$placeholders[$param->name]->index];
+            $args[] = $segments[$placeholders[$param->name]->index]->identifier;
         }
 
         $this->delegate->invoke($controller, ...$args);

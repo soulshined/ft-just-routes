@@ -21,6 +21,7 @@ final class GoodControllerTest extends BaseTest {
         $this->setup_server($req_method, $path);
 
         RouteFactory::registerController(GoodController::class);
+        RouteFactory::onNotFound(function () { });
         RouteFactory::dispatch();
 
         $this->expectOutputString($expected_out);

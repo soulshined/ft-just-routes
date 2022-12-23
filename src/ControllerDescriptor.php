@@ -12,15 +12,17 @@ final class ControllerDescriptor {
     /**
      * @var ControllerMethodDescriptor[]
      */
-    private array $methods = [];
+    public readonly array $methods;
     public array $exception_handlers = [];
 
     public function __construct(
-        public readonly Type $type
+        public readonly Type $type,
+        public readonly string $path
     )
     {
+        $methods = [];
         foreach ($type->delegate->getMethods() as $method) {
-            $md = new ControllerMethodDescriptor($method);
+            $md = new ControllerMethodDescriptor($method, $path);
             if (!$md->has_mapping) {
                 $ehs = $md->delegate->getAttributes(ExceptionHandler::class);
                 foreach ($ehs as $eh) {
@@ -31,13 +33,15 @@ final class ControllerDescriptor {
                 continue;
             }
 
-            foreach ($this->methods as $this_md) {
+            foreach ($methods as $this_md) {
                 if ($md->route->equals($this_md->route))
                     throw new RouteAlreadyExistsException($md->route->path, $type);
             }
 
-            $this->methods[] = $md;
+            $methods[] = $md;
         }
+
+        $this->methods = $methods;
     }
 
     public function get_route(RequestMethods $method, string $path) : ?ControllerMethodDescriptor {

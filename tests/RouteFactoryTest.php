@@ -2,12 +2,16 @@
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
+use FT\Routing\Attributes\GetMapping;
+use FT\Routing\Attributes\RequestMapping;
 use FT\Routing\Exceptions\RouteAlreadyExistsException;
+use FT\Routing\Exceptions\RouteException;
 use FT\Routing\RouteFactory;
 
 foreach ([
     'BaseTest',
     'GoodController',
+    'GoodControllerWithPrefix',
     'SecondController'
 ] as $c) {
     include_once __DIR__ . "/./$c.php";
@@ -40,6 +44,9 @@ final class RouteFactoryTest extends BaseTest {
         RouteFactory::onException(UnexpectedValueException::class, function () {
             echo "Caught globally";
         } );
+        RouteFactory::onNotFound(function($path) {
+            $this->fail("$path not found");
+        });
         RouteFactory::dispatch();
 
         $this->expectOutputString("Caught globally");
@@ -55,6 +62,9 @@ final class RouteFactoryTest extends BaseTest {
         RouteFactory::registerController(GoodController::class);
         RouteFactory::beforeEach(function ($path) {
             echo "Hello from middleware";
+        });
+        RouteFactory::onNotFound(function ($path) {
+            $this->fail("$path not found");
         });
         RouteFactory::dispatch();
 
@@ -75,7 +85,52 @@ final class RouteFactoryTest extends BaseTest {
             SecondController::class,
             ThirdController::class
         );
+
+        RouteFactory::onNotFound(function () {
+            $this->fail();
+        });
     }
+
+    /**
+     * @test
+     */
+    public function multiple_controllers_with_prefix_test() {
+        $this->setup_server('GET', '/good/foo/bazz/buzz');
+        $this->expectException(RouteAlreadyExistsException::class);
+        $this->expectExceptionMessage("Route AgainstPrefixController::/good/foo/bazz/buzz already exists on GoodControllerWithPrefix");
+
+        RouteFactory::registerController(
+            GoodControllerWithPrefix::class,
+            AgainstPrefixController::class
+        );
+
+        RouteFactory::onNotFound(function () {
+            $this->fail();
+        });
+    }
+
+    /**
+    * @test
+    */
+    public function should_throw_for_placeholders_in_controller_request_mapping_test() {
+        $this->setup_server('GET', '/good/foo/bazz/buzz');
+        $this->expectException(RouteException::class);
+        $this->expectExceptionMessage("Controller #[RequestMapping] can not contain path variable placeholders @ FooController");
+
+        RouteFactory::registerController(FooController::class);
+
+        RouteFactory::onNotFound(function () {
+            $this->fail();
+        });
+    }
+}
+
+#[RequestMapping(value: "/foobar/name/{name}/number/{number}")]
+final class FooController {
+
+    #[GetMapping]
+    private function get() {}
+
 }
 
 ?>
