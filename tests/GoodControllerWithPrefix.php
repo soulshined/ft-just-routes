@@ -24,17 +24,17 @@ final class GoodControllerWithPrefix {
         echo "Prefixed Hello from " . $_SERVER['REQUEST_METHOD'];
     }
 
-    #[GetMapping("/marco")]
+    #[GetMapping(value: "/marco")]
     function get_with_path() {
         echo "Prefixed Polo";
     }
 
-    #[GetMapping("/code/{code}/number/{number}")]
+    #[GetMapping(value: "/code/{code}/number/{number}")]
     function get_with_path_vars(string $code, int $number) {
         echo "Prefixed Code: $code | Number: $number";
     }
 
-    #[GetMapping("/throw_illegal_arg_exception")]
+    #[GetMapping(value: "/throw_illegal_arg_exception")]
     function get_that_throws() {
         throw new IllegalArgumentException("Illegal");
     }
@@ -45,19 +45,19 @@ final class GoodControllerWithPrefix {
         echo "Prefixed Hello World";
     }
 
-    #[PostMapping("/marco")]
+    #[PostMapping(value: "/marco")]
     function post_with_path()
     {
         echo "Prefixed Polo";
     }
 
-    #[PostMapping("/code/{code}/number/{number}")]
+    #[PostMapping(value: "/code/{code}/number/{number}")]
     function post_with_path_vars(string $code, int $number)
     {
         echo "Prefixed Code: $code | Number: $number";
     }
 
-    #[PostMapping("/throw_illegal_arg_exception")]
+    #[PostMapping(value: "/throw_illegal_arg_exception")]
     function post_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
@@ -69,19 +69,19 @@ final class GoodControllerWithPrefix {
         echo "Prefixed Hello World";
     }
 
-    #[PutMapping("/marco")]
+    #[PutMapping(value: "/marco")]
     function put_with_path()
     {
         echo "Prefixed Polo";
     }
 
-    #[PutMapping("/code/{code}/number/{number}")]
+    #[PutMapping(value: "/code/{code}/number/{number}")]
     function put_with_path_vars(string $code, int $number)
     {
         echo "Prefixed Code: $code | Number: $number";
     }
 
-    #[PutMapping("/throw_illegal_arg_exception")]
+    #[PutMapping(value: "/throw_illegal_arg_exception")]
     function put_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
@@ -93,19 +93,19 @@ final class GoodControllerWithPrefix {
         echo "Prefixed Hello World";
     }
 
-    #[DeleteMapping("/marco")]
+    #[DeleteMapping(value: "/marco")]
     function delete_with_path()
     {
         echo "Prefixed Polo";
     }
 
-    #[DeleteMapping("/code/{code}/number/{number}")]
+    #[DeleteMapping(value: "/code/{code}/number/{number}")]
     function delete_with_path_vars(string $code, int $number)
     {
         echo "Prefixed Code: $code | Number: $number";
     }
 
-    #[DeleteMapping("/throw_illegal_arg_exception")]
+    #[DeleteMapping(value: "/throw_illegal_arg_exception")]
     function delete_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
@@ -116,7 +116,7 @@ final class GoodControllerWithPrefix {
         echo "Prefixed Swallowed ". $_SERVER['REQUEST_METHOD'] . " exception: " . $exc->getMessage()  . " for path: $path";
     }
 
-    #[GetMapping("/global_exception")]
+    #[GetMapping(value: "/global_exception")]
     function get_global_exception() {
         throw new UnexpectedValueException("Unexpected");
     }

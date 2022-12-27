@@ -39,7 +39,7 @@ final class MyController {
     function voidMethod() { // maps to GET /foobar
     }
 
-    #[GetMapping("/bazz")]
+    #[GetMapping(value: "/bazz")]
     function get_bazz() { // maps to GET /foobar/bazz
         echo "bazz";
     }
@@ -74,7 +74,7 @@ final class MyController {
         throw new IllegalArgumentException("Illegal");
     }
 
-    #[GetMapping("/bazz")]
+    #[GetMapping(value: "/bazz")]
     function get_bazz() { // maps to GET /foobar/bazz
         throw new IllegalArgumentException("Illegal");
     }
@@ -131,30 +131,30 @@ RouteFactory::dispatch();
 - #[ExceptionHandler]
 - #[RequestParam] - Inject a request parameter directly as a method parameter
 
-```php
-#[RequestMapping(value: "/foobar")]
-final class MyController {
+    ```php
+    #[RequestMapping(value: "/foobar")]
+    final class MyController {
 
-    #[GetMapping("/id/{id}")]
-    public function get_foo(int $id, #[RequestParam] string $internal, #[RequestParam] array $foos) {
-        // Example req:
-        // GET /foobar/id/1?internal=true&foos[]=1&foos[]=2&foos[]=3
+        #[GetMapping("/id/{id}")]
+        public function get_foo(int $id, #[RequestParam] string $internal, #[RequestParam] array $foos) {
+            // Example req:
+            // GET /foobar/id/1?internal=true&foos[]=1&foos[]=2&foos[]=3
+        }
     }
-}
-```
+    ```
 
 - #[RequestHeader] - Inject a header directly as a method parameter
 
-```php
-#[RequestMapping(value: "/foobar")]
-final class MyController {
+    ```php
+    #[RequestMapping(value: "/foobar")]
+    final class MyController {
 
-    #[GetMapping("/id/{id}")]
-    public function get_foo(int $id, #[RequestHeader] string $referer) {
+        #[GetMapping("/id/{id}")]
+        public function get_foo(int $id, #[RequestHeader] string $referer) {
 
+        }
     }
-}
-```
+    ```
 
 #### Route Syntax
 
@@ -170,7 +170,7 @@ For example:
 #[RequestMapping(value: "/foobar")]
 final class MyController {
 
-    #[GetMapping("/name/{name}/age/{age}")]
+    #[GetMapping(value: "/name/{name}/age/{age}")]
     function get_for_name_age(string $name, int $age) {
         // example req
         // GET /foobar/name/John/age/18

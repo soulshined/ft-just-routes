@@ -17,12 +17,16 @@ final class ControllerMethodDescriptor {
 
     public readonly bool $has_mapping;
     public readonly Route $route;
+    public readonly ?string $produces;
 
     public function __construct(
         public readonly Method $delegate,
-        string $route_prefix
+        string $route_prefix,
+        ?string $global_produces
     )
     {
+        $fproduces = $global_produces;
+
         $request_mapping = $delegate->get_attributes(RequestMapping::class);
 
         $mappings = [
@@ -50,10 +54,18 @@ final class ControllerMethodDescriptor {
             foreach ($attr->getArgument('methods') as $method)
                 $methods[] = $method;
 
+            $this_produces = $attr->getArgument('produces');
+            if (!is_null($this_produces))
+                $fproduces = $this_produces;
+
             $this->route = new Route($route_prefix . (Utils::normalize_path($attr->getArgument('value'))), $methods);
         }
         else {
             $mapping = $mappings[0];
+
+            $this_produces = $mapping->getArgument('produces');
+            if (!is_null($this_produces))
+                $fproduces = $this_produces;
 
             $method = RequestMethods::GET;
             switch ($mapping->name) {
@@ -71,6 +83,7 @@ final class ControllerMethodDescriptor {
             $this->route = new Route($route_prefix . (Utils::normalize_path($mapping->getArgument('value') ?? "/")), [$method]);
         }
 
+        $this->produces = $fproduces;
     }
 
     public function invoke(object $controller, array $segments) {
@@ -103,6 +116,9 @@ final class ControllerMethodDescriptor {
             else if (!key_exists($param->name, $placeholders)) continue;
             else $args[] = $segments[$placeholders[$param->name]->index]->identifier;
         }
+
+        if (!is_null($this->produces))
+            header("Content-Type: $this->produces", true);
 
         $this->delegate->invoke($controller, ...$args);
     }

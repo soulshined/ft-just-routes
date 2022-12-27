@@ -35,7 +35,11 @@ final class RouteFactory {
             if (array_first(fn ($i) => $i->type === RouteSegmentType::PLACEHOLDER, $segments) !== null)
                 throw new RouteException("Controller #[RequestMapping] can not contain path variable placeholders @ " . $cls->name);
 
-            $controller = new ControllerDescriptor($cls, "/" . join("/", array_map(fn ($i) => $i->identifier, $segments)));
+            $controller = new ControllerDescriptor(
+                $cls,
+                "/" . join("/", array_map(fn ($i) => $i->identifier, $segments)),
+                $path_attr->getArgument('produces')
+            );
 
             foreach (static::$controllers as $c) {
                 foreach ($controller->methods as $m1) {

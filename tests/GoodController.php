@@ -26,17 +26,17 @@ final class GoodController {
         echo "Hello from " . $_SERVER['REQUEST_METHOD'];
     }
 
-    #[GetMapping("/marco")]
+    #[GetMapping(value: "/marco")]
     function get_with_path() {
         echo "Polo";
     }
 
-    #[GetMapping("/code/{code}/number/{number}")]
+    #[GetMapping(value: "/code/{code}/number/{number}")]
     function get_with_path_vars(string $code, int $number) {
         echo "Code: $code | Number: $number";
     }
 
-    #[GetMapping("/throw_illegal_arg_exception")]
+    #[GetMapping(value: "/throw_illegal_arg_exception")]
     function get_that_throws() {
         throw new IllegalArgumentException("Illegal");
     }
@@ -47,19 +47,19 @@ final class GoodController {
         echo "Hello World";
     }
 
-    #[PostMapping("/marco")]
+    #[PostMapping(value: "/marco")]
     function post_with_path()
     {
         echo "Polo";
     }
 
-    #[PostMapping("/code/{code}/number/{number}")]
+    #[PostMapping(value: "/code/{code}/number/{number}")]
     function post_with_path_vars(string $code, int $number)
     {
         echo "Code: $code | Number: $number";
     }
 
-    #[PostMapping("/throw_illegal_arg_exception")]
+    #[PostMapping(value: "/throw_illegal_arg_exception")]
     function post_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
@@ -71,19 +71,19 @@ final class GoodController {
         echo "Hello World";
     }
 
-    #[PutMapping("/marco")]
+    #[PutMapping(value: "/marco")]
     function put_with_path()
     {
         echo "Polo";
     }
 
-    #[PutMapping("/code/{code}/number/{number}")]
+    #[PutMapping(value: "/code/{code}/number/{number}")]
     function put_with_path_vars(string $code, int $number)
     {
         echo "Code: $code | Number: $number";
     }
 
-    #[PutMapping("/throw_illegal_arg_exception")]
+    #[PutMapping(value: "/throw_illegal_arg_exception")]
     function put_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
@@ -95,45 +95,45 @@ final class GoodController {
         echo "Hello World";
     }
 
-    #[DeleteMapping("/marco")]
+    #[DeleteMapping(value: "/marco")]
     function delete_with_path()
     {
         echo "Polo";
     }
 
-    #[DeleteMapping("/code/{code}/number/{number}")]
+    #[DeleteMapping(value: "/code/{code}/number/{number}")]
     function delete_with_path_vars(string $code, int $number)
     {
         echo "Code: $code | Number: $number";
     }
 
-    #[DeleteMapping("/throw_illegal_arg_exception")]
+    #[DeleteMapping(value: "/throw_illegal_arg_exception")]
     function delete_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
     }
 
-    #[GetMapping("/reqheader")]
+    #[GetMapping(value: "/reqheader")]
     function get_with_request_header(#[RequestHeader] string $accept) {
         echo "Request header result: accept => $accept";
     }
 
-    #[GetMapping("/code/{code}/id/{id}/reqheader/many")]
+    #[GetMapping(value: "/code/{code}/id/{id}/reqheader/many")]
     function get_with_many_request_header(int $id, string $code, #[RequestHeader] string $referer, #[RequestHeader] string $accept) {
         echo "Code: $code | Number: $id | Request header result: referer => $referer, accept => $accept";
     }
 
-    #[GetMapping("/reqparam")]
+    #[GetMapping(value: "/reqparam")]
     function get_with_request_param(#[RequestParam] string $foo) {
         echo "Request param result: $foo";
     }
 
-    #[GetMapping("/reqparam/array")]
+    #[GetMapping(value: "/reqparam/array")]
     function get_with_request_param_array(#[RequestParam] array $foo) {
         echo "Request param result: " . join(", ", $foo);
     }
 
-    #[GetMapping("/code/{code}/id/{id}/reqparam/many")]
+    #[GetMapping(value: "/code/{code}/id/{id}/reqparam/many")]
     function get_with_many_request_param(
         int $id,
         string $code,
@@ -149,7 +149,7 @@ final class GoodController {
         echo "Swallowed ". $_SERVER['REQUEST_METHOD'] . " exception: " . $exc->getMessage()  . " for path: $path";
     }
 
-    #[GetMapping("/global_exception")]
+    #[GetMapping(value: "/global_exception")]
     function get_global_exception() {
         throw new UnexpectedValueException("Unexpected");
     }

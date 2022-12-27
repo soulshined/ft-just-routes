@@ -22,7 +22,7 @@ final class ThirdController {
 #[RequestMapping(value: "/good")]
 final class AgainstPrefixController {
 
-    #[GetMapping("/foo/bazz/buzz")]
+    #[GetMapping(value: "/foo/bazz/buzz")]
     public function get_buzz() {}
 
 }
