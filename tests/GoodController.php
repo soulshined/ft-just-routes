@@ -7,7 +7,9 @@ use FT\Routing\Attributes\ExceptionHandler;
 use FT\Routing\Attributes\GetMapping;
 use FT\Routing\Attributes\PostMapping;
 use FT\Routing\Attributes\PutMapping;
+use FT\Routing\Attributes\RequestHeader;
 use FT\Routing\Attributes\RequestMapping;
+use FT\Routing\Attributes\RequestParam;
 
 include __DIR__ . '/../vendor/autoload.php';
 
@@ -109,6 +111,37 @@ final class GoodController {
     function delete_that_throws()
     {
         throw new IllegalArgumentException("Illegal");
+    }
+
+    #[GetMapping("/reqheader")]
+    function get_with_request_header(#[RequestHeader] string $accept) {
+        echo "Request header result: accept => $accept";
+    }
+
+    #[GetMapping("/code/{code}/id/{id}/reqheader/many")]
+    function get_with_many_request_header(int $id, string $code, #[RequestHeader] string $referer, #[RequestHeader] string $accept) {
+        echo "Code: $code | Number: $id | Request header result: referer => $referer, accept => $accept";
+    }
+
+    #[GetMapping("/reqparam")]
+    function get_with_request_param(#[RequestParam] string $foo) {
+        echo "Request param result: $foo";
+    }
+
+    #[GetMapping("/reqparam/array")]
+    function get_with_request_param_array(#[RequestParam] array $foo) {
+        echo "Request param result: " . join(", ", $foo);
+    }
+
+    #[GetMapping("/code/{code}/id/{id}/reqparam/many")]
+    function get_with_many_request_param(
+        int $id,
+        string $code,
+        #[RequestParam] array $foo,
+        #[RequestParam] string $bar,
+        #[RequestParam('name')] string $userName
+    ) {
+        echo "Code: $code | Number: $id | Request param result: " . join(", ", $foo) . ", $bar, $userName";
     }
 
     #[ExceptionHandler(IllegalArgumentException::class)]

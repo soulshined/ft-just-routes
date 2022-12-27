@@ -17,8 +17,8 @@ final class GoodControllerTest extends BaseTest {
     * @test
     * @dataProvider good_requests
     */
-    public function should_route_test($req_method, $path, $expected_out) {
-        $this->setup_server($req_method, $path);
+    public function should_route_test($req_method, $path, $expected_out, array $headers = []) {
+        $this->setup_server($req_method, $path, $headers);
 
         RouteFactory::registerController(GoodController::class);
         RouteFactory::onNotFound(function () { });
@@ -52,7 +52,21 @@ final class GoodControllerTest extends BaseTest {
 
             ['GET', "/good/reqmap", "Hello from GET"],
             ['HEAD', "/good/reqmap", "Hello from HEAD"],
-            ['TRACE', "/good/reqmap", "Hello from TRACE"]
+            ['TRACE', "/good/reqmap", "Hello from TRACE"],
+
+            ['GET', '/good/reqparam', "Request param result: "],
+            ['GET', '/good/reqparam?foo=abc', "Request param result: abc"],
+            ['GET', '/good/reqparam/array?foo[]=abc&foo[]=123', "Request param result: abc, 123"],
+            ['GET', '/good/code/my-code/id/99/reqparam/many?bar=buzz&foo[]=abc&foo[]=123&name=john%20doe', "Code: my-code | Number: 99 | Request param result: abc, 123, buzz, john doe"],
+
+            ['GET', '/good/reqheader', "Request header result: accept => text/*;q=0.3, application/json;q=0.7, */*;q=0.2", [
+                'HTTP_ACCEPT' => 'text/*;q=0.3, application/json;q=0.7, */*;q=0.2'
+            ]],
+
+            ['GET', '/good/code/my-code/id/99/reqheader/many', "Code: my-code | Number: 99 | Request header result: referer => referred-by-x, accept => text/*;q=0.3, application/json;q=0.7, */*;q=0.2", [
+                'HTTP_ACCEPT' => 'text/*;q=0.3, application/json;q=0.7, */*;q=0.2',
+                'HTTP_REFERER' => 'referred-by-x'
+            ]],
 
         ];
     }

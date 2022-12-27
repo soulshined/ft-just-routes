@@ -129,6 +129,32 @@ RouteFactory::dispatch();
 
 - #[RequestMapping]
 - #[ExceptionHandler]
+- #[RequestParam] - Inject a request parameter directly as a method parameter
+
+```php
+#[RequestMapping(value: "/foobar")]
+final class MyController {
+
+    #[GetMapping("/id/{id}")]
+    public function get_foo(int $id, #[RequestParam] string $internal, #[RequestParam] array $foos) {
+        // Example req:
+        // GET /foobar/id/1?internal=true&foos[]=1&foos[]=2&foos[]=3
+    }
+}
+```
+
+- #[RequestHeader] - Inject a header directly as a method parameter
+
+```php
+#[RequestMapping(value: "/foobar")]
+final class MyController {
+
+    #[GetMapping("/id/{id}")]
+    public function get_foo(int $id, #[RequestHeader] string $referer) {
+
+    }
+}
+```
 
 #### Route Syntax
 

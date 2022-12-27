@@ -1,7 +1,7 @@
 <?php
 namespace FT\Routing;
 
-use FT\Reflection\Attribute;
+use FT\Reflection\Method;
 use FT\Reflection\Type;
 use FT\RequestResponse\Enums\RequestMethods;
 use FT\Routing\Attributes\ExceptionHandler;
@@ -22,11 +22,10 @@ final class ControllerDescriptor {
     {
         $methods = [];
         foreach ($type->delegate->getMethods() as $method) {
-            $md = new ControllerMethodDescriptor($method, $path);
+            $md = new ControllerMethodDescriptor(new Method($method), $path);
             if (!$md->has_mapping) {
-                $ehs = $md->delegate->getAttributes(ExceptionHandler::class);
-                foreach ($ehs as $eh) {
-                    $attr = new Attribute($eh);
+                $ehs = $md->delegate->get_attributes(ExceptionHandler::class);
+                foreach ($ehs as $attr) {
                     $this->exception_handlers[$attr->getArgument('value')] = $md;
                 }
 

@@ -1,15 +1,17 @@
 <?php
 namespace FT\Routing;
 
-use FT\Reflection\Attribute;
+use FT\Reflection\Method;
 use FT\RequestResponse\Enums\RequestMethods;
+use FT\RequestResponse\Request;
 use FT\Routing\Attributes\DeleteMapping;
 use FT\Routing\Attributes\GetMapping;
 use FT\Routing\Attributes\PostMapping;
 use FT\Routing\Attributes\PutMapping;
+use FT\Routing\Attributes\RequestHeader;
 use FT\Routing\Attributes\RequestMapping;
+use FT\Routing\Attributes\RequestParam;
 use FT\Routing\Exceptions\RouteException;
-use ReflectionMethod;
 
 final class ControllerMethodDescriptor {
 
@@ -17,17 +19,17 @@ final class ControllerMethodDescriptor {
     public readonly Route $route;
 
     public function __construct(
-        public readonly ReflectionMethod $delegate,
+        public readonly Method $delegate,
         string $route_prefix
     )
     {
-        $request_mapping = $delegate->getAttributes(RequestMapping::class);
+        $request_mapping = $delegate->get_attributes(RequestMapping::class);
 
         $mappings = [
-            ...$delegate->getAttributes(GetMapping::class),
-            ...$delegate->getAttributes(PostMapping::class),
-            ...$delegate->getAttributes(PutMapping::class),
-            ...$delegate->getAttributes(DeleteMapping::class)
+            ...$delegate->get_attributes(GetMapping::class),
+            ...$delegate->get_attributes(PostMapping::class),
+            ...$delegate->get_attributes(PutMapping::class),
+            ...$delegate->get_attributes(DeleteMapping::class)
         ];
 
         if (!empty($mappings) && !empty($request_mapping))
@@ -42,7 +44,7 @@ final class ControllerMethodDescriptor {
         $this->has_mapping = true;
 
         if (!empty($request_mapping)) {
-            $attr = new Attribute($request_mapping[0]);
+            $attr = $request_mapping[0];
 
             $methods = [];
             foreach ($attr->getArgument('methods') as $method)
@@ -52,10 +54,9 @@ final class ControllerMethodDescriptor {
         }
         else {
             $mapping = $mappings[0];
-            $attr = new Attribute($mapping);
 
             $method = RequestMethods::GET;
-            switch ($mapping->getName()) {
+            switch ($mapping->name) {
                 case PostMapping::class:
                     $method = RequestMethods::POST;
                     break;
@@ -67,18 +68,40 @@ final class ControllerMethodDescriptor {
                     break;
             }
 
-            $this->route = new Route($route_prefix . (Utils::normalize_path($attr->getArgument('value') ?? "/")), [$method]);
+            $this->route = new Route($route_prefix . (Utils::normalize_path($mapping->getArgument('value') ?? "/")), [$method]);
         }
 
     }
 
     public function invoke(object $controller, array $segments) {
+        $req = new Request;
         $placeholders = $this->route->placeholders;
         $args = [];
-        foreach ($this->delegate->getParameters() as $param) {
-            if (!key_exists($param->name, $placeholders)) continue;
+        foreach ($this->delegate->parameters as $param) {
+            if ($param->has_attribute(RequestParam::class)) {
+                $reqparam = null;
+                $target = $param->get_attribute(RequestParam::class)->getArgument('value');
 
-            $args[] = $segments[$placeholders[$param->name]->index]->identifier;
+                if (is_null($target)) $target = $param->name;
+
+                if ($req->isParameterSet($target))
+                    $reqparam = $req->parameters->{$target};
+
+                $args[] = $reqparam ?? "";
+            }
+            else if ($param->has_attribute(RequestHeader::class)) {
+                $reqh = null;
+                $target = $param->get_attribute(RequestHeader::class)->getArgument('value');
+
+                if (is_null($target)) $target = $param->name;
+
+                if ($req->isHeaderSet($target))
+                    $reqh = $req->headers->{$target};
+
+                $args[] = is_scalar($reqh) ? $reqh : $reqh?->raw ?? "";
+            }
+            else if (!key_exists($param->name, $placeholders)) continue;
+            else $args[] = $segments[$placeholders[$param->name]->index]->identifier;
         }
 
         $this->delegate->invoke($controller, ...$args);
