@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e429e9cd9d23858b286ff564baf774b",
+    "content-hash": "9e2be57d08b0e36bf4725b07957686c2",
     "packages": [
         {
             "name": "ft/attributes",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soulshined/ft-attributes.git",
-                "reference": "4bed49ebc5c8790dfa0d1847bc1c2477805817e9"
+                "reference": "ea53d05c4e8cc1723546b46314fbd5fe6e57ac62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soulshined/ft-attributes/zipball/4bed49ebc5c8790dfa0d1847bc1c2477805817e9",
-                "reference": "4bed49ebc5c8790dfa0d1847bc1c2477805817e9",
+                "url": "https://api.github.com/repos/soulshined/ft-attributes/zipball/ea53d05c4e8cc1723546b46314fbd5fe6e57ac62",
+                "reference": "ea53d05c4e8cc1723546b46314fbd5fe6e57ac62",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
                 "issues": "https://github.com/soulshined/ft-attributes/issues",
                 "source": "https://github.com/soulshined/ft-attributes/tree/v2.2"
             },
-            "time": "2022-12-22T19:11:43+00:00"
+            "time": "2022-12-23T22:20:59+00:00"
         },
         {
             "name": "ft/reflection",
@@ -117,16 +117,16 @@
         },
         {
             "name": "ft/request-response",
-            "version": "1.1.3",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/soulshined/ft-request-response.git",
-                "reference": "f3b3674756e1d60da45c6fc667d08db9934a0fe8"
+                "reference": "8d12d651377ca8018b3e760fc517934befa34f79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soulshined/ft-request-response/zipball/f3b3674756e1d60da45c6fc667d08db9934a0fe8",
-                "reference": "f3b3674756e1d60da45c6fc667d08db9934a0fe8",
+                "url": "https://api.github.com/repos/soulshined/ft-request-response/zipball/8d12d651377ca8018b3e760fc517934befa34f79",
+                "reference": "8d12d651377ca8018b3e760fc517934befa34f79",
                 "shasum": ""
             },
             "require": {
@@ -142,8 +142,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "FT\\RequestResponse\\": "src/",
-                    "FT\\RequestResponse\\Tests\\": "tests/"
+                    "FT\\RequestResponse\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -164,9 +163,9 @@
             ],
             "support": {
                 "issues": "https://github.com/soulshined/ft-request-response/issues",
-                "source": "https://github.com/soulshined/ft-request-response/tree/1.1.3"
+                "source": "https://github.com/soulshined/ft-request-response/tree/2.0.0"
             },
-            "time": "2022-12-16T03:01:49+00:00"
+            "time": "2022-12-27T02:02:14+00:00"
         },
         {
             "name": "monolog/monolog",
